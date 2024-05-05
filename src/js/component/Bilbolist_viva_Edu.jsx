@@ -61,7 +61,8 @@ export const TodolistRF = () => {
 export const Bilbolist_viva_Edu = () => {
     const [task, setTask] = useState([])
     const host = 'https://playground.4geeks.com/todo'
-    
+
+    // Método GET para traer las tareas según indica la Api
     const getUsers = async () => {
         const uri = host + '/users/Bilbolist_viva_Edu';
         const options = {
@@ -74,9 +75,27 @@ export const Bilbolist_viva_Edu = () => {
         }
         console.log('It works :', response.ok, response.status, response.statusText);
         const data = await response.json();
-        setTask(data.task);
+        setTask(data.todos);
         console.log(task);
     }
+
+    // Método POST para crear un usuario según la Api 
+    const createUser = async() => {
+        const [newUser, setNewUser] = useState ([])
+        const uri = host + '/users/Bilbolist';
+        const options = {
+            method: 'POST'
+        };
+        const response = await fetch (uri,options)
+        if (!response.ok) {
+            console.log('Error: ', response.ok, response.status, response.statusText);
+            return
+        }
+        console.log('It works :', response.ok, response.status, response.statusText);
+        const dataNewUser = await response.json();
+        setNewUser(dataNewUser.Bilbolist)
+        console.log(newUser);
+    } 
 
     useEffect(() => {
         getUsers();
@@ -84,8 +103,8 @@ export const Bilbolist_viva_Edu = () => {
 
     return (
         <ul className="list-group">
-            {task.map((item) => 
-            <li className="list-group-item">{item.label}</li>)}
+            {task.map((item, id) =>
+                <li className="list-group-item" key={id}>{item.label}</li>)}
         </ul>
     );
 };
