@@ -1,10 +1,10 @@
 import React from "react";
-import { Bilbolist_viva_Edu } from "./Bilbolist_viva_Edu.jsx";
+import { TodoList } from "./TodoList.jsx";
 
 const Home = () => {
 	return (
 		<>
-		   <Bilbolist_viva_Edu />
+		   <TodoList />
 		</>
 	);
 };
