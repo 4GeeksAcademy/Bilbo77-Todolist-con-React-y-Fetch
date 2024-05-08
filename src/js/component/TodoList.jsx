@@ -67,19 +67,44 @@ export const TodoList = () => {
         traerTareas()
     }
 
+ /*   // Función que nos edita las tareas (PUT)
+ async function editarTareas (item) {
+
+    const uri = `${host}/todos/${item.id}`
+    
+    const updateTodo = {...item, label:nuevaTarea};
+
+    const options = {
+        method: "PUT",
+        headers: {"Content-type": "application/json"},
+        body: JSON.stringify(updateTodo)
+    };
+
+    const response = await fetch (uri, options);
+
+    if (!response.ok) {
+        console.log("Aquí hay un error", response.status, response.statusText);
+    };
+
+    setNuevaTarea("");
+    traerTareas();
+
+}; */
+
     async function editarTarea() {
+
         if (!nuevaTarea.trim()) {
             return;
         }
-        const dataToSend = {
-            label: nuevaTarea,
-            is_done: false
-        }
-        const uri = `${host}/todos/${usuario}`
+
+        const uri = `${host}/todos/${item.id}`
+
+        const editarTarea = {...item, label:nuevaTarea};
+
         const options = {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(dataToSend)
+            body: JSON.stringify(editarTarea)
         }
         const response = await fetch(uri, options)
         if (!response.ok) {
@@ -88,8 +113,8 @@ export const TodoList = () => {
         }
         const data = await response.json()
 
+        setNuevaTarea("");
         traerTareas()
-
     }
 
     async function eliminarTarea(item) {
