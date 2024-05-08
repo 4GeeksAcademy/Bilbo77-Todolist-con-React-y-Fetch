@@ -164,5 +164,6 @@ export const TodoList = () => {
     )
 }
 
-// 
+// Me falta que al pulsar el icono del bolígrado se edite la tarea
+// No logro que funcione el ''d-none'' de los iconos, lo de que aparezcan cuando pasas el ratón por encima y no sé porqué
 
