@@ -1,8 +1,9 @@
-.hidden-icon > span {
+.float-end > span {
     visibility: hidden;
 }
-
-.hidden-icon:hover > span {
-visibility: visible;
-
+.float-end:hover > span {
+    visibility: visible;
 }
+
+
+

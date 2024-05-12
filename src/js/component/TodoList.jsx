@@ -7,6 +7,7 @@ export const TodoList = () => {
     const [nuevoUsuario, setNuevoUsuario] = useState('')
     const [listadoTareas, setListadoTareas] = useState([])
     const [nuevaTarea, setNuevaTarea] = useState('')
+    const [editandoTarea, setEditandoTarea] = useState('')
 
     async function crearUsuario() {
         const uri = `${host}/users/${usuario}`
@@ -66,7 +67,6 @@ export const TodoList = () => {
         setNuevaTarea('')
         traerTareas()
     }
-
     
     async function editarTarea() {
 
@@ -94,6 +94,12 @@ export const TodoList = () => {
         traerTareas()
     }
 
+    // Función para actualizar tarea
+    async function actualizarTarea(item) {
+        setEditandoTarea(item);
+        setNuevaTarea(item.label)
+    };
+
     async function eliminarTarea(item) {
 
         const uri = `${host}/todos/${item.id}`
@@ -107,7 +113,6 @@ export const TodoList = () => {
         }
         traerTareas();
     }
-
 
     const handleNuevaTarea = (event) => {
         event.preventDefault();
@@ -135,22 +140,26 @@ export const TodoList = () => {
                             onChange={(event) => setNuevaTarea(event.target.value)}
                         />
                     </div>
-                    <button type="submit" className="btn btn-primary mb-5">Agregar tarea</button>
+                    
+                    <button onClick={() => editandoTarea ? editarTarea(editandoTarea) : crearTarea() } >
+                {editandoTarea ? "Actualizar tarea" : "Crear tarea"}</button>
                 </form>
+                
                 <h2 className="col-1">Tareas</h2>
 
                 {!listadoTareas ? 'Aún no llegaron las tareas de la Api'
                     :
                     <ul className="list-group">
                         {listadoTareas.map((item) =>
+                         
                             <li className="list-group-item text-start" key={item.id} >{item.label}
                                     <span className="float-end" onClick={() => eliminarTarea(item)}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash text-danger" viewBox="0 0 16 16">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="prueba bi bi-trash text-danger" viewBox="0 0 16 16">
                                             <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
                                             <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
                                         </svg>
                                     </span>
-                                    <span className="float-end me-3 rounded-circle" onClick={() => editarTarea(item)}>
+                                    <span className="float-end me-3 rounded-circle" onClick={() => actualizarTarea(item)}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pen" viewBox="0 0 16 16">
                                         <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
                                     </svg>
@@ -163,7 +172,3 @@ export const TodoList = () => {
         </>
     )
 }
-
-// Me falta que al pulsar el icono del bolígrado se edite la tarea
-// No logro que funcione el ''d-none'' de los iconos, lo de que aparezcan cuando pasas el ratón por encima y no sé porqué
-
